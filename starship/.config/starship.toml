@@ -1,0 +1,55 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+add_newline = false
+command_timeout = 800
+scan_timeout = 20
+palette = "tokyonight"
+format = """
+$directory$git_branch$git_status$nodejs$rust$python$dotnet$package
+$character
+"""
+
+[character]
+success_symbol = "[❯](fg:blue)"
+error_symbol = "[❯](fg:red)"
+vicmd_symbol = "[❮](fg:purple)"
+
+[directory]
+style = "fg:blue"
+truncate_to_repo = false
+truncation_length = 5
+read_only = " 󰌾"
+
+[git_branch]
+symbol = " "
+style = "fg:purple"
+
+[git_status]
+style = "fg:orange"
+
+[nodejs]
+symbol = " "
+style = "fg:green"
+
+[rust]
+symbol = " "
+style = "fg:orange"
+
+[python]
+symbol = " "
+style = "fg:cyan"
+
+[dotnet]
+symbol = "󰪮 "
+style = "fg:blue"
+
+[package]
+symbol = "󰏗 "
+style = "fg:green"
+
+[palettes.tokyonight]
+blue = "#7aa2f7"
+cyan = "#7dcfff"
+green = "#9ece6a"
+orange = "#ff9e64"
+purple = "#bb9af7"
+red = "#f7768e"

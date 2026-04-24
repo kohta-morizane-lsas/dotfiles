@@ -1,0 +1,14 @@
+# stow ignores these when creating symlinks
+\.git
+\.gitignore
+README\.md
+docs
+scripts
+install\.sh
+Brewfile
+\.stow-local-ignore
+\.claude\.json
+settings\.local\.json
+projects
+todos
+history

@@ -1,0 +1,11 @@
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+
+[init]
+    defaultBranch = main
+
+[core]
+    excludesfile = ~/.gitignore_global
+
+[include]
+    path = ~/.gitconfig.local

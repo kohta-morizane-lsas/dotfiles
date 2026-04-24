@@ -1,0 +1,38 @@
+# Machine-local overrides (*.example files are tracked as templates)
+*.local
+*.local.*
+!*.local.example
+!*.local.*.example
+
+# Secrets
+.env
+.env.*
+credentials*
+*.key
+*.pem
+id_rsa*
+id_ed25519*
+known_hosts
+
+# Claude state files
+.claude.json
+settings.local.json
+projects/
+todos/
+history/
+compaction*/
+statsig/
+
+# macOS
+.DS_Store
+
+# Vim swap
+*.swp
+*.swo
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc

@@ -1,0 +1,14 @@
+# Machine-local git config — copy to ~/.gitconfig.local and fill in values.
+# This file is NOT tracked by git (*.local is gitignored).
+
+[user]
+    name = Your Name
+    email = you@example.com
+
+[credential "https://github.com"]
+    helper =
+    helper = !/usr/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+    helper =
+    helper = !/usr/bin/gh auth git-credential
