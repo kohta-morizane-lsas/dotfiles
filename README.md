@@ -4,15 +4,16 @@ Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Packages
 
-| Package   | Symlinks created |
-|-----------|-----------------|
-| `bash`    | `~/.bashrc`, `~/.bashrc.local.example` |
-| `git`     | `~/.gitconfig`, `~/.gitconfig.local.example`, `~/.gitignore_global` |
-| `starship`| `~/.config/starship.toml` |
-| `lazygit` | `~/.config/lazygit/config.yml` |
-| `claude`  | `~/.claude/CLAUDE.md`, `~/.claude/rules/`, `~/.claude/settings.json.template` |
+| Package    | Symlinks created                                                              |
+| ---------- | ----------------------------------------------------------------------------- |
+| `bash`     | `~/.bashrc`, `~/.bashrc.local.example`                                        |
+| `git`      | `~/.gitconfig`, `~/.gitconfig.local.example`, `~/.gitignore_global`           |
+| `starship` | `~/.config/starship.toml`                                                     |
+| `lazygit`  | `~/.config/lazygit/config.yml`                                                |
+| `claude`   | `~/.claude/CLAUDE.md`, `~/.claude/rules/`, `~/.claude/settings.json.template` |
 
 **Not managed here:**
+
 - `~/.config/nvim/` — managed as its own git repo
 - `~/tools/` — managed separately
 
@@ -39,10 +40,10 @@ $EDITOR ~/.bashrc.local
 
 ## Machine-local files (not tracked by git)
 
-| File | Purpose |
-|------|---------|
-| `~/.bashrc.local` | WSL paths, Windows helpers, machine-specific aliases |
-| `~/.gitconfig.local` | `[user]` name/email, `[credential]` helper |
+| File                      | Purpose                                                      |
+| ------------------------- | ------------------------------------------------------------ |
+| `~/.bashrc.local`         | WSL paths, Windows helpers, machine-specific aliases         |
+| `~/.gitconfig.local`      | `[user]` name/email, `[credential]` helper                   |
 | `~/.claude/settings.json` | Claude Code settings (copied from template on first install) |
 
 ## Common operations
@@ -66,23 +67,23 @@ mv ~/.some/config dotfiles/bash/.some/config
 
 ### fzf-powered navigation
 
-| Command | Description |
-|---------|-------------|
-| `fo [path] [pattern]` | Fuzzy-find a file and open in `nvim` |
-| `fc [path] [pattern]` | Fuzzy-find a file and open in `$VISUAL` |
-| `fom` | Fuzzy-find multiple files (Tab to select) and open in `nvim` |
-| `frg [query]` | Search file contents with ripgrep, jump to line in `nvim` |
-| `fcd [pattern] [path]` | Fuzzy `cd` into a directory |
+| Command                | Description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| `fo [path] [pattern]`  | Fuzzy-find a file and open in `nvim`                         |
+| `fc [path] [pattern]`  | Fuzzy-find a file and open in `$VISUAL`                      |
+| `fom`                  | Fuzzy-find multiple files (Tab to select) and open in `nvim` |
+| `frg [query]`          | Search file contents with ripgrep, jump to line in `nvim`    |
+| `fcd [pattern] [path]` | Fuzzy `cd` into a directory                                  |
 
 #### Search scope flags (`fo`, `fcd`)
 
 By default these search the current directory. Use a flag to widen the scope:
 
-| Flag | Search root |
-|------|-------------|
-| _(none)_ | `.` (current directory) |
-| `-H` / `--home` | `$HOME` |
-| `-r` / `--root` | `/` (filesystem root) |
+| Flag            | Search root             |
+| --------------- | ----------------------- |
+| _(none)_        | `.` (current directory) |
+| `-H` / `--home` | `$HOME`                 |
+| `-r` / `--root` | `/` (filesystem root)   |
 
 ```bash
 fo -H              # pick any file under $HOME, open in nvim
