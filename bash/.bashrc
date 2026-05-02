@@ -31,8 +31,15 @@ if [ -d "$FNM_PATH" ]; then
 fi
 
 # fzf + fd: open file in nvim
+# Usage: fo [-H|-r] [path] [pattern]
+#   -H  search from $HOME; -r  search from /
 fo() {
-  local path="${1:-.}"
+  local default_path="."
+  case "${1:-}" in
+    -H|--home) default_path="$HOME"; shift ;;
+    -r|--root) default_path="/";     shift ;;
+  esac
+  local path="${1:-$default_path}"
   local pattern="${2:-}"
   local file
   file=$(fdfind --type f --hidden --exclude .git "$pattern" "$path" |
@@ -74,9 +81,16 @@ frg() {
 }
 
 # fzf + fd: fuzzy cd
+# Usage: fcd [-H|-r] [pattern] [path]
+#   -H  search from $HOME; -r  search from /
 fcd() {
+  local default_path="."
+  case "${1:-}" in
+    -H|--home) default_path="$HOME"; shift ;;
+    -r|--root) default_path="/";     shift ;;
+  esac
   local dir
-  dir=$(fdfind --type d --hidden --exclude .git "${1:-}" "${2:-.}" | fzf) && cd "$dir"
+  dir=$(fdfind --type d --hidden --exclude .git "${1:-}" "${2:-$default_path}" | fzf) && cd "$dir"
 }
 
 eval "$(zoxide init bash)"

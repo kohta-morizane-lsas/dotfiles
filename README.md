@@ -62,6 +62,35 @@ mv ~/.some/config dotfiles/bash/.some/config
 ./install.sh bash
 ```
 
+## Shell functions (`bash/.bashrc`)
+
+### fzf-powered navigation
+
+| Command | Description |
+|---------|-------------|
+| `fo [path] [pattern]` | Fuzzy-find a file and open in `nvim` |
+| `fc [path] [pattern]` | Fuzzy-find a file and open in `$VISUAL` |
+| `fom` | Fuzzy-find multiple files (Tab to select) and open in `nvim` |
+| `frg [query]` | Search file contents with ripgrep, jump to line in `nvim` |
+| `fcd [pattern] [path]` | Fuzzy `cd` into a directory |
+
+#### Search scope flags (`fo`, `fcd`)
+
+By default these search the current directory. Use a flag to widen the scope:
+
+| Flag | Search root |
+|------|-------------|
+| _(none)_ | `.` (current directory) |
+| `-H` / `--home` | `$HOME` |
+| `-r` / `--root` | `/` (filesystem root) |
+
+```bash
+fo -H              # pick any file under $HOME, open in nvim
+fo -r pattern      # pick a file matching "pattern" anywhere on /, open in nvim
+fcd -H             # fuzzy-cd to any directory under $HOME
+fcd -r src         # fuzzy-cd to a directory named "src" anywhere on /
+```
+
 ## Adding a new package
 
 See [docs/adding-package.md](docs/adding-package.md).
