@@ -13,9 +13,9 @@ alias ll='eza -l --group-directories-first --icons --git'
 alias la='eza -la --group-directories-first --icons --git'
 alias lt='eza --tree --icons'
 alias lrt='eza -l --group-directories-first --icons --git --sort newest'
-alias cat='batcat'   # Ubuntu: batcat; macOS: bat — override in .bashrc.local
+alias cat='batcat' # Ubuntu: batcat; macOS: bat — override in .bashrc.local
 alias grep='rg'
-alias ff='fdfind'    # Ubuntu: fdfind; macOS: fd — override in .bashrc.local
+alias ff='fdfind' # Ubuntu: fdfind; macOS: fd — override in .bashrc.local
 alias g='lazygit'
 alias v='nvim'
 
@@ -36,8 +36,14 @@ fi
 fo() {
   local default_path="."
   case "${1:-}" in
-    -H|--home) default_path="$HOME"; shift ;;
-    -r|--root) default_path="/";     shift ;;
+  -H | --home)
+    default_path="$HOME"
+    shift
+    ;;
+  -r | --root)
+    default_path="/"
+    shift
+    ;;
   esac
   local path="${1:-$default_path}"
   local pattern="${2:-}"
@@ -86,11 +92,81 @@ frg() {
 fcd() {
   local default_path="."
   case "${1:-}" in
-    -H|--home) default_path="$HOME"; shift ;;
-    -r|--root) default_path="/";     shift ;;
+  -H | --home)
+    default_path="$HOME"
+    shift
+    ;;
+  -r | --root)
+    default_path="/"
+    shift
+    ;;
   esac
   local dir
   dir=$(fdfind --type d --hidden --exclude .git "${1:-}" "${2:-$default_path}" | fzf) && cd "$dir"
+}
+
+ij() {
+  local date_str
+  local time_str
+  local file
+  date_str=$(date +%F)
+  time_str=$(date +%H:%M)
+  file="${date_str}.md"
+
+  if ! nb daily:ls "$file" >/dev/null 2>&1; then
+    nb daily:add --filename "$file" --content "# ${date_str}
+
+  ## Daily Focus
+
+  - Top priority:
+  - Definition of Done:
+  - Watch-out:
+
+  ## Raw Log 
+  
+  "
+  fi
+
+  nb daily:edit "$file" --content "---
+
+### ${time_str}
+
+- Now:
+- Previous:
+- Next:
+- Blocker:
+
+"
+
+  nb daily:edit "$file"
+}
+
+ijeod() {
+  local date_str
+  local file
+
+  date_str=$(date +%F)
+  file="${date_str}.md"
+
+  nb daily:edit "$file" --content "--- 
+
+  ## End of Day 
+
+  - Done:
+  - Not done:
+  - First thing tomorrow:
+  - Return to TODO:
+
+  --- 
+
+  ## Corrected English 
+
+  --- 
+
+  ## Daily Analysis 
+  "
+
+  nb daily:edit "$file"
 }
 
 eval "$(zoxide init bash)"
