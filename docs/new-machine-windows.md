@@ -46,7 +46,7 @@ pwsh -ExecutionPolicy Bypass -File .\scripts\install-windows-packages.ps1
 ```
 
 winget で導入されるもの: PowerShell 7, Git, gh, WezTerm, Neovim, Lazygit, Starship,
-ripgrep, fd, fzf, eza, bat, zoxide, fnm, Claude Code
+ripgrep, fd, fzf, eza, bat, zoxide, fnm
 
 手動で導入するもの:
 
@@ -54,6 +54,7 @@ ripgrep, fd, fzf, eza, bat, zoxide, fnm, Claude Code
 - **Rustup**: https://rustup.rs
 - **.NET SDK**: https://dotnet.microsoft.com/download
 - **uv**: `pwsh -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
+- **Claude Code**: 手動でインストール (https://claude.com/claude-code)
 
 ## 4. 設定ファイルの配置(シンボリックリンク)
 

@@ -17,8 +17,7 @@ $packages = @(
   "eza-community.eza",
   "sharkdp.bat",
   "ajeetdsouza.zoxide",
-  "Schniz.fnm",
-  "Anthropic.ClaudeCode"
+  "Schniz.fnm"
 )
 
 foreach ($id in $packages) {
@@ -32,5 +31,6 @@ Write-Host "  - Nerd Font : JetBrainsMono Nerd Font (https://www.nerdfonts.com)"
 Write-Host "  - Rustup    : https://rustup.rs"
 Write-Host "  - .NET SDK  : https://dotnet.microsoft.com/download"
 Write-Host "  - uv        : pwsh -ExecutionPolicy ByPass -c `"irm https://astral.sh/uv/install.ps1 | iex`""
+Write-Host "  - Claude Code: install manually (https://claude.com/claude-code)"
 Write-Host ""
 Write-Host "Next: pwsh -ExecutionPolicy Bypass -File .\scripts\install-windows.ps1"
