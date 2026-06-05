@@ -10,11 +10,11 @@ Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
 | `git`      | `~/.gitconfig`, `~/.gitconfig.local.example`, `~/.gitignore_global`           |
 | `starship` | `~/.config/starship.toml`                                                     |
 | `lazygit`  | `~/.config/lazygit/config.yml`                                                |
+| `nvim`     | `~/.config/nvim/` (LazyVim config, `lazy-lock.json` included)                 |
 | `claude`   | `~/.claude/CLAUDE.md`, `~/.claude/rules/`, `~/.claude/settings.json.template` |
 
 **Not managed here:**
 
-- `~/.config/nvim/` — managed as its own git repo
 - `~/tools/` — managed separately
 
 ## Quick Start (new machine)

@@ -37,6 +37,17 @@ for f in "${FILES_TO_BACKUP[@]}"; do
   backup_file "$f"
 done
 
+# Back up nvim config directory (non-symlink)
+if [ -d "$HOME/.config/nvim" ] && [ ! -L "$HOME/.config/nvim" ]; then
+  if [ "$DRY_RUN" = "1" ]; then
+    log "[dry-run] would back up: $HOME/.config/nvim → $BACKUP_DIR/.config/nvim"
+  else
+    mkdir -p "$BACKUP_DIR/.config"
+    mv "$HOME/.config/nvim" "$BACKUP_DIR/.config/nvim"
+    log "backed up: $HOME/.config/nvim → $BACKUP_DIR/.config/nvim"
+  fi
+fi
+
 # Back up claude/rules directory (non-symlink)
 if [ -d "$HOME/.claude/rules" ] && [ ! -L "$HOME/.claude/rules" ]; then
   if [ "$DRY_RUN" = "1" ]; then
