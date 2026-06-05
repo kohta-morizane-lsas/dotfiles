@@ -22,6 +22,13 @@ bash scripts/bootstrap.sh
 
 Installs: `stow`, `git`, `ripgrep`, `fd`, `fzf`, `bat`, `eza`, `zoxide`, `neovim`, `lazygit`, `starship`.
 
+Install sources (Ubuntu's apt repos are not enough for everything):
+
+- `eza` — official deb repo (deb.gierens.de); the version in Ubuntu universe is outdated
+- `lazygit` — GitHub releases binary → `/usr/local/bin` (not packaged for Ubuntu)
+- `neovim` — official tarball → `/opt/nvim-linux-x86_64` + symlink (apt's 0.9.x is too old for LazyVim)
+- everything else — apt
+
 ## 4. Install dotfiles
 
 ```bash
@@ -91,18 +98,11 @@ If `dotnet` was previously installed via `apt` or to `/usr/local/bin`, remove or
 
 ## 7. Neovim config
 
-Installed by `./install.sh --all` as the `nvim` stow package (symlinked to `~/.config/nvim`).
+Installed by `./install.sh --all` as the `nvim` stow package (symlinked to `~/.config/nvim`,
+plus `~/.markdownlint-cli2.yaml` for the markdown linter).
 On first launch, lazy.nvim downloads plugins automatically — verify with `:LazyHealth`.
 
-## 8. Claude Code
-
-```bash
-npm install -g @anthropic-ai/claude-code
-```
-
-`~/.claude/settings.json` is created from template by `install.sh`.
-
-## 9. gh CLI
+## 8. gh CLI
 
 ```bash
 sudo apt-get install -y gh

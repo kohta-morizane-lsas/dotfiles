@@ -2,20 +2,24 @@ export EDITOR=nvim
 export VISUAL=nvim
 export BAT_THEME="tokyonight_storm"
 
+# Resolve tool names once: Ubuntu's apt packages install fdfind/batcat,
+# macOS/binary installs provide fd/bat — prefer the upstream names
+FD_BIN="$(command -v fd || command -v fdfind)"
+BAT_BIN="$(command -v bat || command -v batcat)"
+
 # fzf default search command
-# Ubuntu uses fdfind; macOS/other uses fd — override in .bashrc.local if needed
-export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --exclude .git'
+export FZF_DEFAULT_COMMAND="$FD_BIN --type f --hidden --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND='fdfind --type d --hidden --exclude .git'
+export FZF_ALT_C_COMMAND="$FD_BIN --type d --hidden --exclude .git"
 
 alias ls='eza --group-directories-first --icons'
 alias ll='eza -l --group-directories-first --icons --git'
 alias la='eza -la --group-directories-first --icons --git'
 alias lt='eza --tree --icons'
 alias lrt='eza -l --group-directories-first --icons --git --sort newest'
-alias cat='batcat' # Ubuntu: batcat; macOS: bat — override in .bashrc.local
+alias cat="$BAT_BIN"
 alias grep='rg'
-alias ff='fdfind' # Ubuntu: fdfind; macOS: fd — override in .bashrc.local
+alias ff="$FD_BIN"
 alias g='lazygit'
 alias v='nvim'
 
@@ -28,6 +32,14 @@ if [ -d "$FNM_PATH" ]; then
   export PATH="$FNM_PATH:$PATH"
   export PATH="$FNM_PATH/aliases/default/bin:$PATH"
   eval "$(fnm env --use-on-cd --shell bash)"
+fi
+
+# fzf keybindings (Ctrl+T: files / Ctrl+R: history / Alt+C: cd)
+# fzf >= 0.48 supports `fzf --bash`; apt's older fzf ships a key-bindings script
+if fzf --bash >/dev/null 2>&1; then
+  eval "$(fzf --bash)"
+elif [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+  . /usr/share/doc/fzf/examples/key-bindings.bash
 fi
 
 # fzf + fd: open file in nvim
@@ -48,8 +60,8 @@ fo() {
   local path="${1:-$default_path}"
   local pattern="${2:-}"
   local file
-  file=$(fdfind --type f --hidden --exclude .git "$pattern" "$path" |
-    fzf --preview 'batcat --style=numbers --color=always --line-range :100 {} 2>/dev/null || cat {}')
+  file=$("$FD_BIN" --type f --hidden --exclude .git "$pattern" "$path" |
+    fzf --preview "$BAT_BIN --style=numbers --color=always --line-range :100 {} 2>/dev/null || cat {}")
   [ -n "$file" ] && nvim "$file"
 }
 
@@ -58,16 +70,16 @@ fc() {
   local path="${1:-.}"
   local pattern="${2:-}"
   local file
-  file=$(fdfind --type f --hidden --exclude .git "$pattern" "$path" |
-    fzf --preview 'batcat --style=numbers --color=always --line-range :100 {} 2>/dev/null || cat {}')
+  file=$("$FD_BIN" --type f --hidden --exclude .git "$pattern" "$path" |
+    fzf --preview "$BAT_BIN --style=numbers --color=always --line-range :100 {} 2>/dev/null || cat {}")
   [ -n "$file" ] && ${VISUAL:-nvim} "$file"
 }
 
 # fzf + fd: open multiple files in nvim (Tab to select)
 fom() {
   local files
-  files=$(fdfind --type f --hidden --exclude .git |
-    fzf -m --preview 'batcat --style=numbers --color=always --line-range :100 {} 2>/dev/null || cat {}')
+  files=$("$FD_BIN" --type f --hidden --exclude .git |
+    fzf -m --preview "$BAT_BIN --style=numbers --color=always --line-range :100 {} 2>/dev/null || cat {}")
   [ -n "$files" ] && echo "$files" | xargs -d '\n' nvim
 }
 
@@ -76,7 +88,7 @@ frg() {
   local result
   result=$(rg --line-number --no-heading --color=always --smart-case --hidden --glob '!.git' "${1:-}" |
     fzf --ansi --delimiter : \
-      --preview 'batcat --style=numbers --color=always --highlight-line {2} {1}' \
+      --preview "$BAT_BIN --style=numbers --color=always --highlight-line {2} {1}" \
       --preview-window 'right,60%,+{2}/2')
   [ -n "$result" ] && {
     local file line
@@ -102,10 +114,11 @@ fcd() {
     ;;
   esac
   local dir
-  dir=$(fdfind --type d --hidden --exclude .git "${1:-}" "${2:-$default_path}" | fzf) && cd "$dir"
+  dir=$("$FD_BIN" --type d --hidden --exclude .git "${1:-}" "${2:-$default_path}" | fzf) && cd "$dir"
 }
 
 ij() {
+  command -v nb >/dev/null 2>&1 || { echo "ij: nb is not installed (https://github.com/xwmx/nb)" >&2; return 1; }
   local date_str
   local time_str
   local file
@@ -122,8 +135,8 @@ ij() {
   - Definition of Done:
   - Watch-out:
 
-  ## Raw Log 
-  
+  ## Raw Log
+
   "
   fi
 
@@ -142,28 +155,29 @@ ij() {
 }
 
 ijeod() {
+  command -v nb >/dev/null 2>&1 || { echo "ijeod: nb is not installed (https://github.com/xwmx/nb)" >&2; return 1; }
   local date_str
   local file
 
   date_str=$(date +%F)
   file="${date_str}.md"
 
-  nb daily:edit "$file" --content "--- 
+  nb daily:edit "$file" --content "---
 
-  ## End of Day 
+  ## End of Day
 
   - Done:
   - Not done:
   - First thing tomorrow:
   - Return to TODO:
 
-  --- 
+  ---
 
-  ## Corrected English 
+  ## Corrected English
 
-  --- 
+  ---
 
-  ## Daily Analysis 
+  ## Daily Analysis
   "
 
   nb daily:edit "$file"

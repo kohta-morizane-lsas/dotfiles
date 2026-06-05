@@ -65,7 +65,17 @@ $links = @(
   @{ Source = Join-Path $RepoRoot "starship\.config\starship.toml"
      Target = Join-Path $HOME ".config\starship.toml" },
   @{ Source = Join-Path $RepoRoot "nvim\.config\nvim"
-     Target = Join-Path $env:LOCALAPPDATA "nvim" }
+     Target = Join-Path $env:LOCALAPPDATA "nvim" },
+  @{ Source = Join-Path $RepoRoot "nvim\.markdownlint-cli2.yaml"
+     Target = Join-Path $HOME ".markdownlint-cli2.yaml" },
+  @{ Source = Join-Path $RepoRoot "lazygit\.config\lazygit\config.yml"
+     Target = Join-Path $env:LOCALAPPDATA "lazygit\config.yml" },
+  @{ Source = Join-Path $RepoRoot "git\.gitconfig"
+     Target = Join-Path $HOME ".gitconfig" },
+  @{ Source = Join-Path $RepoRoot "git\.gitignore_global"
+     Target = Join-Path $HOME ".gitignore_global" },
+  @{ Source = Join-Path $RepoRoot "bat\.config\bat\themes\tokyonight_storm.tmTheme"
+     Target = Join-Path $env:APPDATA "bat\themes\tokyonight_storm.tmTheme" }
 )
 
 function Get-LinkTarget([string]$Path) {
@@ -132,6 +142,25 @@ if (-not $Uninstall -and -not (Test-Path $localProfile)) {
     Copy-Item (Join-Path $RepoRoot "powershell\profile.local.ps1.example") $localProfile
     Write-Host "Created $localProfile from example - edit it for this machine."
   }
+}
+
+# --- 6. Seed ~/.gitconfig.local from example if missing (machine-local, untracked) ---
+$localGitconfig = Join-Path $HOME ".gitconfig.local"
+if (-not $Uninstall -and -not (Test-Path $localGitconfig)) {
+  if ($DryRun) {
+    Write-Host "[dry-run] copy .gitconfig.local.example -> $localGitconfig"
+  } else {
+    Copy-Item (Join-Path $RepoRoot "git\.gitconfig.local.example") $localGitconfig
+    Write-Host "Created $localGitconfig from example - fill in your name and email:"
+    Write-Host "  git config -f `$HOME\.gitconfig.local user.name  'Your Name'"
+    Write-Host "  git config -f `$HOME\.gitconfig.local user.email 'you@example.com'"
+  }
+}
+
+# --- 7. Rebuild bat's theme cache so the linked theme is picked up ---
+if (-not $Uninstall -and -not $DryRun -and (Get-Command bat -ErrorAction SilentlyContinue)) {
+  bat cache --build | Out-Null
+  Write-Host "Rebuilt bat theme cache."
 }
 
 Write-Host ""

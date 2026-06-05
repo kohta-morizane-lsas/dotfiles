@@ -5,10 +5,11 @@
     name = Your Name
     email = you@example.com
 
+# gh must be on PATH (resolved at runtime — works on both WSL and Windows)
 [credential "https://github.com"]
     helper =
-    helper = !/usr/bin/gh auth git-credential
+    helper = !gh auth git-credential
 
 [credential "https://gist.github.com"]
     helper =
-    helper = !/usr/bin/gh auth git-credential
+    helper = !gh auth git-credential

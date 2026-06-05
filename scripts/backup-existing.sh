@@ -26,7 +26,8 @@ FILES_TO_BACKUP=(
   "$HOME/.gitignore_global"
   "$HOME/.config/starship.toml"
   "$HOME/.config/lazygit/config.yml"
-  "$HOME/.claude/CLAUDE.md"
+  "$HOME/.config/bat/themes/tokyonight_storm.tmTheme"
+  "$HOME/.markdownlint-cli2.yaml"
 )
 
 if [ "$DRY_RUN" = "1" ]; then
@@ -45,17 +46,6 @@ if [ -d "$HOME/.config/nvim" ] && [ ! -L "$HOME/.config/nvim" ]; then
     mkdir -p "$BACKUP_DIR/.config"
     mv "$HOME/.config/nvim" "$BACKUP_DIR/.config/nvim"
     log "backed up: $HOME/.config/nvim → $BACKUP_DIR/.config/nvim"
-  fi
-fi
-
-# Back up claude/rules directory (non-symlink)
-if [ -d "$HOME/.claude/rules" ] && [ ! -L "$HOME/.claude/rules" ]; then
-  if [ "$DRY_RUN" = "1" ]; then
-    log "[dry-run] would back up: $HOME/.claude/rules → $BACKUP_DIR/.claude/rules"
-  else
-    mkdir -p "$BACKUP_DIR/.claude"
-    mv "$HOME/.claude/rules" "$BACKUP_DIR/.claude/rules"
-    log "backed up: $HOME/.claude/rules → $BACKUP_DIR/.claude/rules"
   fi
 fi
 

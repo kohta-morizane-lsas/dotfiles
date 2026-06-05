@@ -19,8 +19,3 @@
 #   [ -n "$dir" ] && explorer.exe "$(wslpath -w "$dir")"
 # }
 # e() { explorer.exe "$(wslpath -w "${1:-.}")"; }
-
-# --- macOS overrides (uncomment on macOS) ---
-# alias cat='bat'
-# alias ff='fd'
-# export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'

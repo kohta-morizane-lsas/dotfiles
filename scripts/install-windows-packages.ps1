@@ -1,6 +1,7 @@
 # Install Windows development tools via winget.
-# Run from PowerShell (no admin required for most packages):
-#   pwsh -ExecutionPolicy Bypass -File .\scripts\install-windows-packages.ps1
+# On a fresh machine pwsh (PowerShell 7) does not exist yet — run the first time
+# with built-in Windows PowerShell (no admin required for most packages):
+#   powershell -ExecutionPolicy Bypass -File .\scripts\install-windows-packages.ps1
 # Already-installed packages are skipped by winget.
 
 $packages = @(
@@ -25,12 +26,17 @@ foreach ($id in $packages) {
   winget install --id $id -e --accept-package-agreements --accept-source-agreements
 }
 
+# PSFzf — fzf keybindings (Ctrl+T / Ctrl+R) for PowerShell; loaded by the profile
+if (-not (Get-Module -ListAvailable -Name PSFzf)) {
+  Write-Host "==> Install-Module PSFzf"
+  Install-Module PSFzf -Scope CurrentUser -Force
+}
+
 Write-Host ""
 Write-Host "Install the following manually if not yet available:"
 Write-Host "  - Nerd Font : JetBrainsMono Nerd Font (https://www.nerdfonts.com)"
 Write-Host "  - Rustup    : https://rustup.rs"
 Write-Host "  - .NET SDK  : https://dotnet.microsoft.com/download"
 Write-Host "  - uv        : pwsh -ExecutionPolicy ByPass -c `"irm https://astral.sh/uv/install.ps1 | iex`""
-Write-Host "  - Claude Code: install manually (https://claude.com/claude-code)"
 Write-Host ""
 Write-Host "Next: pwsh -ExecutionPolicy Bypass -File .\scripts\install-windows.ps1"

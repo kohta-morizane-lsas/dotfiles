@@ -7,8 +7,3 @@ scripts
 install\.sh
 Brewfile
 \.stow-local-ignore
-\.claude\.json
-settings\.local\.json
-projects
-todos
-history

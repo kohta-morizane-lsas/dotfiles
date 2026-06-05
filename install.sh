@@ -3,7 +3,7 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="$HOME"
-ALL_PACKAGES=(bash git starship lazygit nvim claude)
+ALL_PACKAGES=(bash git starship lazygit nvim bat)
 
 usage() {
   echo "Usage: $0 [--all | <pkg> ...] [--unstow] [--dry-run]"
@@ -67,10 +67,15 @@ if [ "$UNSTOW" -eq 0 ] && [ "$DRY_RUN" -eq 0 ] && [ ! -f "$TARGET/.gitconfig.loc
   echo "  git config -f ~/.gitconfig.local user.email 'you@example.com'"
 fi
 
-# Set up ~/.claude/settings.json from template if missing
-if [ "$UNSTOW" -eq 0 ] && [ "$DRY_RUN" -eq 0 ] && [ ! -f "$TARGET/.claude/settings.json" ]; then
-  cp "$DOTFILES_DIR/claude/.claude/settings.json.template" "$TARGET/.claude/settings.json"
-  echo "Created ~/.claude/settings.json from template."
+# Rebuild bat's theme cache so the stowed theme is picked up
+if [ "$UNSTOW" -eq 0 ] && [ "$DRY_RUN" -eq 0 ] && [ -d "$TARGET/.config/bat/themes" ]; then
+  if command -v bat >/dev/null 2>&1; then
+    bat cache --build >/dev/null
+    echo "Rebuilt bat theme cache."
+  elif command -v batcat >/dev/null 2>&1; then
+    batcat cache --build >/dev/null
+    echo "Rebuilt bat theme cache."
+  fi
 fi
 
 echo ""

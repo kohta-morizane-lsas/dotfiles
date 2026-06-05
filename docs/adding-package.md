@@ -29,7 +29,7 @@ cd ~/dotfiles
 Edit the `ALL_PACKAGES` array at the top of `install.sh`:
 
 ```bash
-ALL_PACKAGES=(bash git starship lazygit claude tmux)
+ALL_PACKAGES=(bash git starship lazygit nvim bat tmux)
 ```
 
 ## Verify with dry-run first

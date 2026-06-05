@@ -41,12 +41,16 @@ cd $env:USERPROFILE\dotfiles
 
 ## 3. パッケージ一括インストール
 
+**初回は Windows PowerShell(`powershell`)で実行する** — 新規マシンには pwsh
+(PowerShell 7) がまだ存在せず、このスクリプト自身が winget で導入するため:
+
 ```powershell
-pwsh -ExecutionPolicy Bypass -File .\scripts\install-windows-packages.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\install-windows-packages.ps1
 ```
 
 winget で導入されるもの: PowerShell 7, Git, gh, WezTerm, Neovim, Lazygit, Starship,
 ripgrep, fd, fzf, eza, bat, zoxide, fnm
+(加えて PSGallery から PSFzf — fzf の Ctrl+T / Ctrl+R キーバインド用)
 
 手動で導入するもの:
 
@@ -54,7 +58,6 @@ ripgrep, fd, fzf, eza, bat, zoxide, fnm
 - **Rustup**: https://rustup.rs
 - **.NET SDK**: https://dotnet.microsoft.com/download
 - **uv**: `pwsh -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
-- **Claude Code**: 手動でインストール (https://claude.com/claude-code)
 
 ## 4. 設定ファイルの配置(シンボリックリンク)
 
@@ -71,7 +74,8 @@ pwsh -ExecutionPolicy Bypass -File .\scripts\install-windows.ps1
 | ExecutionPolicy | `Restricted` なら `RemoteSigned` (CurrentUser) に変更 — 以後 Bypass 指定は不要 |
 | Unblock-File | リポジトリ内 `.ps1` の Mark of the Web を除去 |
 | リンク作成 | 下表のとおり(既存ファイルは `.bak-<日時>` に退避) |
-| local 設定 | `profile.local.ps1` が無ければ example からコピー |
+| local 設定 | `profile.local.ps1` / `.gitconfig.local` が無ければ example からコピー |
+| bat テーマ | `bat cache --build` を実行してリンクしたテーマを反映 |
 
 | リポジトリ | リンク先 |
 | --- | --- |
@@ -79,6 +83,11 @@ pwsh -ExecutionPolicy Bypass -File .\scripts\install-windows.ps1
 | `powershell/Microsoft.PowerShell_profile.ps1` | `$PROFILE` (`Documents\PowerShell\...`) |
 | `starship/.config/starship.toml` | `%USERPROFILE%\.config\starship.toml` |
 | `nvim/.config/nvim/` | `%LOCALAPPDATA%\nvim` |
+| `nvim/.markdownlint-cli2.yaml` | `%USERPROFILE%\.markdownlint-cli2.yaml` |
+| `lazygit/.config/lazygit/config.yml` | `%LOCALAPPDATA%\lazygit\config.yml` |
+| `git/.gitconfig` | `%USERPROFILE%\.gitconfig` |
+| `git/.gitignore_global` | `%USERPROFILE%\.gitignore_global` |
+| `bat/.config/bat/themes/tokyonight_storm.tmTheme` | `%APPDATA%\bat\themes\tokyonight_storm.tmTheme` |
 
 オプション: `-DryRun`(変更せず表示のみ)/ `-Uninstall`(リンク削除)
 
@@ -107,9 +116,12 @@ uv tool install ruff
 
 ## 7. Git identity
 
+`.gitconfig` はリポジトリからリンクされ、`~/.gitconfig.local`(git 管理外)を
+include する。identity は local 側に書く(WSL と同じ方式):
+
 ```powershell
-git config --global user.name  'Your Name'
-git config --global user.email 'you@example.com'
+git config -f $HOME\.gitconfig.local user.name  'Your Name'
+git config -f $HOME\.gitconfig.local user.email 'you@example.com'
 ```
 
 ## 8. 動作確認チェックリスト
@@ -117,7 +129,9 @@ git config --global user.email 'you@example.com'
 - [ ] WezTerm が起動し、`Ctrl-a u` で WSL タブ / `Ctrl-a Shift-N` で PowerShell タブが開く
 - [ ] pwsh 起動時にエラーなく Starship プロンプトが表示される(署名エラーが出ないこと)
 - [ ] `ls`, `ll`, `cat`, `grep`, `g`, `v` が動く
+- [ ] `fo` でファイルが nvim で開く(WSL 側と同じ挙動)/ `Ctrl+T` で fzf が起動する
+- [ ] `lazygit` のテーマ(Tokyo Night)が WSL 側と同じ見た目
+- [ ] `git config user.name` が表示される(`.gitconfig.local` の値)
 - [ ] Nerd Font のアイコンが崩れない
 - [ ] `nvim` で `:LazyHealth` が概ね通る(初回はプラグイン自動ダウンロード)
 - [ ] `fnm list` で Node バージョンが表示される
-- [ ] `claude doctor` が通る

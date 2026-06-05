@@ -14,14 +14,8 @@ id_rsa*
 id_ed25519*
 known_hosts
 
-# Claude state files
-.claude.json
-settings.local.json
-projects/
-todos/
-history/
-compaction*/
-statsig/
+# Claude Code project-local state (Claude Code itself is not managed by dotfiles)
+.claude/
 
 # macOS
 .DS_Store

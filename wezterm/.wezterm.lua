@@ -108,8 +108,15 @@ config.keys = {
 
 config.launch_menu = {
 	{ label = "PowerShell 7", args = { "pwsh.exe", "-NoLogo" } },
-	{ label = "Git Bash", args = { "C:/Program Files/Git/bin/bash.exe", "-l" } },
 	{ label = "WSL Ubuntu", args = { "wsl.exe", "--distribution", "Ubuntu" } },
 }
+
+-- Git Bash: only offer it when the default install actually exists
+local git_bash = "C:/Program Files/Git/bin/bash.exe"
+local git_bash_handle = io.open(git_bash, "r")
+if git_bash_handle then
+	git_bash_handle:close()
+	table.insert(config.launch_menu, 2, { label = "Git Bash", args = { git_bash, "-l" } })
+end
 
 return config
