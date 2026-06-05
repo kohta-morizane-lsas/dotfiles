@@ -1,8 +1,9 @@
 # dotfiles
 
-Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Personal dotfiles for **WSL Ubuntu** (managed with [GNU Stow](https://www.gnu.org/software/stow/))
+and **Windows + PowerShell 7** (deployed via `scripts/install-windows.ps1`).
 
-## Packages
+## Packages (WSL — stow)
 
 | Package    | Symlinks created                                                              |
 | ---------- | ----------------------------------------------------------------------------- |
@@ -13,11 +14,24 @@ Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
 | `nvim`     | `~/.config/nvim/` (LazyVim config, `lazy-lock.json` included)                 |
 | `claude`   | `~/.claude/CLAUDE.md`, `~/.claude/rules/`, `~/.claude/settings.json.template` |
 
+## Windows configs (deployed by `install-windows.ps1`)
+
+| Repo file                                     | Symlink target                       |
+| --------------------------------------------- | ------------------------------------ |
+| `wezterm/.wezterm.lua`                        | `%USERPROFILE%\.wezterm.lua`         |
+| `powershell/Microsoft.PowerShell_profile.ps1` | `$PROFILE`                           |
+| `starship/.config/starship.toml`              | `%USERPROFILE%\.config\starship.toml`|
+| `nvim/.config/nvim/`                          | `%LOCALAPPDATA%\nvim`                |
+
+`starship` and `nvim` are shared between WSL and Windows — same files, different link targets.
+
 **Not managed here:**
 
 - `~/tools/` — managed separately
 
 ## Quick Start (new machine)
+
+### WSL Ubuntu
 
 ```bash
 git clone git@github.com:YOUR_USERNAME/dotfiles.git ~/dotfiles
@@ -25,6 +39,19 @@ cd ~/dotfiles
 bash scripts/bootstrap.sh    # install stow + CLI tools
 ./install.sh --all            # back up existing dotfiles and stow all packages
 ```
+
+### Windows (PowerShell 7)
+
+Clone with `git clone` (not ZIP — avoids Mark-of-the-Web script blocking), then:
+
+```powershell
+git clone git@github.com:YOUR_USERNAME/dotfiles.git $env:USERPROFILE\dotfiles
+cd $env:USERPROFILE\dotfiles
+pwsh -ExecutionPolicy Bypass -File .\scripts\install-windows-packages.ps1  # winget bulk install
+pwsh -ExecutionPolicy Bypass -File .\scripts\install-windows.ps1           # symlink configs
+```
+
+Full steps: [docs/new-machine-windows.md](docs/new-machine-windows.md)
 
 Then fill in machine-local values:
 
@@ -40,11 +67,12 @@ $EDITOR ~/.bashrc.local
 
 ## Machine-local files (not tracked by git)
 
-| File                      | Purpose                                                      |
-| ------------------------- | ------------------------------------------------------------ |
-| `~/.bashrc.local`         | WSL paths, Windows helpers, machine-specific aliases         |
-| `~/.gitconfig.local`      | `[user]` name/email, `[credential]` helper                   |
-| `~/.claude/settings.json` | Claude Code settings (copied from template on first install) |
+| File                                    | Purpose                                                      |
+| --------------------------------------- | ------------------------------------------------------------ |
+| `~/.bashrc.local`                       | WSL paths, Windows helpers, machine-specific aliases         |
+| `~/.gitconfig.local`                    | `[user]` name/email, `[credential]` helper                   |
+| `~/.claude/settings.json`               | Claude Code settings (copied from template on first install) |
+| `Documents\PowerShell\profile.local.ps1`| Windows: WSL home shortcut, PowerToys module, tool aliases   |
 
 ## Common operations
 
@@ -98,4 +126,5 @@ See [docs/adding-package.md](docs/adding-package.md).
 
 ## New machine setup
 
-See [docs/new-machine.md](docs/new-machine.md) for the full step-by-step including SSH keys, fnm, uv, Rust, and .NET.
+- WSL: [docs/new-machine.md](docs/new-machine.md) — SSH keys, fnm, uv, Rust, and .NET
+- Windows: [docs/new-machine-windows.md](docs/new-machine-windows.md) — winget packages, symlinks, execution policy

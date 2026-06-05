@@ -91,11 +91,8 @@ If `dotnet` was previously installed via `apt` or to `/usr/local/bin`, remove or
 
 ## 7. Neovim config
 
-The nvim config is its own git repo — clone it separately:
-
-```bash
-git clone git@github.com:YOUR_USERNAME/nvim-config.git ~/.config/nvim
-```
+Installed by `./install.sh --all` as the `nvim` stow package (symlinked to `~/.config/nvim`).
+On first launch, lazy.nvim downloads plugins automatically — verify with `:LazyHealth`.
 
 ## 8. Claude Code
 

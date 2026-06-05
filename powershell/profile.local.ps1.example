@@ -1,0 +1,15 @@
+# Machine-local PowerShell settings (NOT tracked by git).
+# Copy this file next to your $PROFILE as `profile.local.ps1` and edit:
+#   Copy-Item profile.local.ps1.example (Join-Path (Split-Path -Parent $PROFILE) 'profile.local.ps1')
+# install-windows.ps1 does this automatically on first run.
+
+# --- WSL home shortcut (edit distro / user name) ---
+# function wslhome {
+#   Set-Location "\\wsl.localhost\Ubuntu\home\YOUR_WSL_USER"
+# }
+
+# --- PowerToys CommandNotFound module (requires PowerToys) ---
+# Import-Module -Name Microsoft.WinGet.CommandNotFound -ErrorAction SilentlyContinue
+
+# --- Machine-specific tool aliases ---
+# . "$env:USERPROFILE\tools\powershell-profile\tools-aliases.ps1"

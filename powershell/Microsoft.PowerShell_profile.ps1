@@ -23,9 +23,6 @@ function grep { rg @args }
 function ff   { fd @args }
 function g    { lazygit }
 function v    { nvim }
-function wslhome {
-  cd "\\wsl.localhost\Ubuntu\home\kohta"
-}
 function q { exit }
 
 # fzf + fd で検索してファイルを開く
@@ -84,9 +81,6 @@ Invoke-Expression (&starship init powershell)
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 Invoke-Expression (& { (fnm env --use-on-cd --shell power-shell | Out-String) })
 
-#f45873b3-b655-43a6-b217-97c00aa0db58 PowerToys CommandNotFound module
-
-Import-Module -Name Microsoft.WinGet.CommandNotFound
-#f45873b3-b655-43a6-b217-97c00aa0db58
-
-. "C:\Users\Kohta-Morizane\tools\powershell-profile\tools-aliases.ps1"
+# Machine-local settings (not tracked by git) — see profile.local.ps1.example
+$localProfile = Join-Path (Split-Path -Parent $PROFILE) 'profile.local.ps1'
+if (Test-Path $localProfile) { . $localProfile }
