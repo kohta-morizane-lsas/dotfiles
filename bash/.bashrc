@@ -188,3 +188,5 @@ eval "$(starship init bash)"
 
 # Machine-local overrides (PATH additions, WSL helpers, work credentials, etc.)
 [ -f "$HOME/.bashrc.local" ] && . "$HOME/.bashrc.local"
+
+. "$HOME/.local/bin/env"
