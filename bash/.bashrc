@@ -190,3 +190,5 @@ eval "$(starship init bash)"
 [ -f "$HOME/.bashrc.local" ] && . "$HOME/.bashrc.local"
 
 . "$HOME/.local/bin/env"
+export PATH=/usr/local/cuda/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
