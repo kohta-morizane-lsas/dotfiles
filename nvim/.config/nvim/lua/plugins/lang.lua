@@ -4,6 +4,9 @@ return {
     opts = {
       servers = {
         basedpyright = {},
+        -- ruff は uv でインストール済み(PATH)を nvim-lint/conform から使う。
+        -- mason(pip)経由のインストール失敗ループを避けるため LSP は無効化。
+        ruff = { enabled = false },
       },
     },
   },
@@ -30,10 +33,7 @@ return {
     "mfussenegger/nvim-lint",
     opts = {
       linters_by_ft = {
-        javascript = { "eslint_d" },
-        javascriptreact = { "eslint_d" },
-        typescript = { "eslint_d" },
-        typescriptreact = { "eslint_d" },
+        -- JS/TS の eslint 診断は eslint-lsp(LSP) で取得するため nvim-lint からは外す。
         python = { "ruff" },
         rust = { "clippy" },
       },
