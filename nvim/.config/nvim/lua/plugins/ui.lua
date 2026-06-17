@@ -4,8 +4,10 @@ return {
     opts = {
       picker = {
         sources = {
-          files = { hidden = true },
-          grep = { hidden = true },
+          -- hidden: ドットファイルを表示 / ignored: gitignore対象も表示
+          files = { hidden = true, ignored = true },
+          grep = { hidden = true, ignored = true },
+          explorer = { hidden = true, ignored = true },
         },
       },
     },
