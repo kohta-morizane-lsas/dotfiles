@@ -23,3 +23,13 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     end
   end,
 })
+
+-- prose 系 filetype のみ spell を有効化(コードバッファはノイズになるため除外)。
+local spell_group = vim.api.nvim_create_augroup("kohta_spell", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+  group = spell_group,
+  pattern = { "markdown", "text", "gitcommit", "tex", "plaintex", "rst", "asciidoc" },
+  callback = function()
+    vim.opt_local.spell = true
+  end,
+})
