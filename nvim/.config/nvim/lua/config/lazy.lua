@@ -34,7 +34,8 @@ require("lazy").setup({
   },
   defaults = { lazy = false, version = false },
   install = { colorscheme = { "tokyonight", "habamax" } },
-  checker = { enabled = true },
+  -- 起動後に更新チェックは行うが、ポップアップ通知は出さない(:Lazy で確認)。
+  checker = { enabled = true, notify = false },
   performance = {
     rtp = {
       disabled_plugins = {
