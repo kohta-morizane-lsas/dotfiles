@@ -6,3 +6,4 @@
 -- prose 系 filetype のみで有効化する処理は autocmds.lua を参照。
 vim.opt.spell = false
 vim.opt.spelllang = { "en", "cjk" }
+vim.opt.wrap = true
