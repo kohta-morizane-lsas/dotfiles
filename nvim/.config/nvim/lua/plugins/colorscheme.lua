@@ -10,22 +10,19 @@ return {
 			},
 		},
 	},
+	-- 予備テーマ。アクティブは tokyonight-night なので遅延ロード(起動時に常駐させない)。
+	-- :colorscheme で切り替えた瞬間に読み込まれる。
 	{
 		"shaunsingh/nord.nvim",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 	},
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		lazy = false,
-		priority = 1000,
+		lazy = true,
 		opts = {
 			flavour = "mocha", -- latte, frappe, macchiato, mocha
 		},
-	},
-	{
-		"xiyaowong/transparent.nvim",
 	},
 	{
 		"LazyVim/LazyVim",
