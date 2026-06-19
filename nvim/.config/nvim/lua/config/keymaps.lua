@@ -13,3 +13,6 @@ end, { desc = "Terminal popup" })
 
 -- jj で挿入モード脱出
 map("i", "jj", "<Esc>", { desc = "Escape insert mode" })
+
+-- disable recording mode
+map("n", "q", "<nop>")
