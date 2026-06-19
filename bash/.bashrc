@@ -118,7 +118,10 @@ fcd() {
 }
 
 ij() {
-  command -v nb >/dev/null 2>&1 || { echo "ij: nb is not installed (https://github.com/xwmx/nb)" >&2; return 1; }
+  command -v nb >/dev/null 2>&1 || {
+    echo "ij: nb is not installed (https://github.com/xwmx/nb)" >&2
+    return 1
+  }
   local date_str
   local time_str
   local file
@@ -155,7 +158,10 @@ ij() {
 }
 
 ijeod() {
-  command -v nb >/dev/null 2>&1 || { echo "ijeod: nb is not installed (https://github.com/xwmx/nb)" >&2; return 1; }
+  command -v nb >/dev/null 2>&1 || {
+    echo "ijeod: nb is not installed (https://github.com/xwmx/nb)" >&2
+    return 1
+  }
   local date_str
   local file
 
@@ -193,6 +199,10 @@ eval "$(starship init bash)"
 export PATH=/usr/local/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
-
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+# VsCode setting
+code() {
+  "/mnt/c/Users/Kohta-Morizane/AppData/Local/Programs/Microsoft VS Code/bin/code" --remote wsl+Ubuntu "${1:-.}" 2>/dev/null
+}
