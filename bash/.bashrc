@@ -194,15 +194,3 @@ eval "$(starship init bash)"
 
 # Machine-local overrides (PATH additions, WSL helpers, work credentials, etc.)
 [ -f "$HOME/.bashrc.local" ] && . "$HOME/.bashrc.local"
-
-. "$HOME/.local/bin/env"
-export PATH=/usr/local/cuda/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
-
-# Load Angular CLI autocompletion.
-source <(ng completion script)
-
-# VsCode setting
-code() {
-  "/mnt/c/Users/Kohta-Morizane/AppData/Local/Programs/Microsoft VS Code/bin/code" --remote wsl+Ubuntu "${1:-.}" 2>/dev/null
-}
