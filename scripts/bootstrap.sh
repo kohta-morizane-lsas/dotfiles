@@ -85,13 +85,15 @@ install_macos() {
   if ! command -v brew >/dev/null; then
     log "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # Ensure brew is on PATH for the rest of this script (Apple Silicon default)
+    [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+    [ -x /usr/local/bin/brew ] && eval "$(/usr/local/bin/brew shellenv)"
   fi
 
-  brew install \
-    stow git \
-    ripgrep fd fzf \
-    bat eza zoxide \
-    neovim lazygit starship
+  local repo_root
+  repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+  log "Installing CLI tools + fonts from Brewfile..."
+  brew bundle --file="$repo_root/Brewfile"
 }
 
 case "$OS" in
