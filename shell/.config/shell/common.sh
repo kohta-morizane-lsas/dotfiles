@@ -60,6 +60,9 @@ fc() {
 }
 
 # fzf + fd: open multiple files in nvim (Tab to select)
+# NUL-delimited end-to-end so filenames with spaces/newlines are safe (portable
+# to BSD/macOS and GNU/Linux). Note: `xargs -o` needs GNU findutils >= 4.7.0
+# (Ubuntu 20.04+); BSD xargs has it natively.
 fom() {
   "$FD_BIN" --type f --hidden --exclude .git -0 |
     fzf -m --read0 --print0 \
