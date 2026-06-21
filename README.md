@@ -1,21 +1,26 @@
 # dotfiles
 
-Personal dotfiles for **WSL Ubuntu** (managed with [GNU Stow](https://www.gnu.org/software/stow/))
-and **Windows + PowerShell 7** (deployed via `scripts/install-windows.ps1`).
+Personal dotfiles for **WSL Ubuntu**, **macOS**, and **Windows + PowerShell 7**
+(Unix packages managed with [GNU Stow](https://www.gnu.org/software/stow/);
+Windows deployed via `scripts/install-windows.ps1`).
 
 Goal: a Unix-like development environment that feels the same whether you are in
-WSL or native Windows — same tools, same aliases, same key habits.
+WSL, macOS, or native Windows — same tools, same aliases, same key habits.
 
 ## Packages (WSL — stow)
 
 | Package    | Symlinks created                                                    |
 | ---------- | ------------------------------------------------------------------- |
 | `bash`     | `~/.bashrc`, `~/.bashrc.local.example`                              |
+| `zsh`      | `~/.zshrc`, `~/.zshrc.local.example`                                |
+| `shell`    | `~/.config/shell/common.sh`                                         |
 | `git`      | `~/.gitconfig`, `~/.gitconfig.local.example`, `~/.gitignore_global` |
 | `starship` | `~/.config/starship.toml`                                           |
 | `lazygit`  | `~/.config/lazygit/config.yml`                                      |
 | `nvim`     | `~/.config/nvim/` (LazyVim config, `lazy-lock.json` included), `~/.markdownlint-cli2.yaml` |
 | `bat`      | `~/.config/bat/themes/tokyonight_storm.tmTheme`                     |
+
+`shell` holds aliases/functions shared by bash and zsh; `bash` and `zsh` each add only shell-specific init.
 
 ## Windows configs (deployed by `install-windows.ps1`)
 
@@ -64,6 +69,19 @@ pwsh -ExecutionPolicy Bypass -File .\scripts\install-windows.ps1                
 ```
 
 Full steps: [docs/new-machine-windows.md](docs/new-machine-windows.md)
+
+### macOS
+
+```bash
+git clone git@github.com:YOUR_USERNAME/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+bash scripts/bootstrap.sh   # install Homebrew (if missing) + CLI tools via brew bundle
+./install.sh --all           # back up existing dotfiles and stow all packages
+```
+
+macOS default shell is already zsh — open a new terminal to load `~/.zshrc`.
+
+Full steps: [docs/new-machine-macos.md](docs/new-machine-macos.md)
 
 Then fill in machine-local values:
 
@@ -155,4 +173,5 @@ See [docs/adding-package.md](docs/adding-package.md).
 ## New machine setup
 
 - WSL: [docs/new-machine.md](docs/new-machine.md) — SSH keys, fnm, uv, Rust, and .NET
+- macOS: [docs/new-machine-macos.md](docs/new-machine-macos.md) — Homebrew bootstrap, zsh, language runtimes
 - Windows: [docs/new-machine-windows.md](docs/new-machine-windows.md) — winget packages, symlinks, execution policy
