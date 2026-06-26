@@ -22,6 +22,7 @@ backup_file() {
 
 FILES_TO_BACKUP=(
   "$HOME/.bashrc"
+  "$HOME/.zshrc"
   "$HOME/.gitconfig"
   "$HOME/.gitignore_global"
   "$HOME/.config/starship.toml"
@@ -46,6 +47,17 @@ if [ -d "$HOME/.config/nvim" ] && [ ! -L "$HOME/.config/nvim" ]; then
     mkdir -p "$BACKUP_DIR/.config"
     mv "$HOME/.config/nvim" "$BACKUP_DIR/.config/nvim"
     log "backed up: $HOME/.config/nvim → $BACKUP_DIR/.config/nvim"
+  fi
+fi
+
+# Back up shell config directory (non-symlink)
+if [ -d "$HOME/.config/shell" ] && [ ! -L "$HOME/.config/shell" ]; then
+  if [ "$DRY_RUN" = "1" ]; then
+    log "[dry-run] would back up: $HOME/.config/shell → $BACKUP_DIR/.config/shell"
+  else
+    mkdir -p "$BACKUP_DIR/.config"
+    mv "$HOME/.config/shell" "$BACKUP_DIR/.config/shell"
+    log "backed up: $HOME/.config/shell → $BACKUP_DIR/.config/shell"
   fi
 fi
 

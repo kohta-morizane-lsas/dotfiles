@@ -19,3 +19,19 @@
 #   [ -n "$dir" ] && explorer.exe "$(wslpath -w "$dir")"
 # }
 # e() { explorer.exe "$(wslpath -w "${1:-.}")"; }
+
+# --- uv (Python) env ---
+# [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
+
+# --- CUDA (Linux/WSL with NVIDIA only) ---
+# export PATH="/usr/local/cuda/bin:$PATH"
+# export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+
+# --- Angular CLI completion (only if `ng` is installed) ---
+# command -v ng >/dev/null 2>&1 && source <(ng completion script)
+
+# --- VS Code launcher (WSL: open current dir in Windows VS Code) ---
+# code() {
+#   "/mnt/c/Users/Kohta-Morizane/AppData/Local/Programs/Microsoft VS Code/bin/code" \
+#     --remote wsl+Ubuntu "${1:-.}" 2>/dev/null
+# }

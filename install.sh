@@ -3,7 +3,7 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="$HOME"
-ALL_PACKAGES=(bash git starship lazygit nvim bat)
+ALL_PACKAGES=(bash zsh shell git starship lazygit nvim bat)
 
 usage() {
   echo "Usage: $0 [--all | <pkg> ...] [--unstow] [--dry-run]"

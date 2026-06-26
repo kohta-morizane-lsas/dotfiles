@@ -1,0 +1,10 @@
+# Machine-local zsh overrides — copy to ~/.zshrc.local and customise.
+# This file is NOT tracked by git (*.local is gitignored).
+
+# --- Extra PATH entries ---
+# export PATH="$HOME/.local/bin:$PATH"
+
+# --- uv (Python) env ---
+# [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
+
+# --- Work credentials / aliases ---
