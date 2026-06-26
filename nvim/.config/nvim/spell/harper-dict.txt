@@ -133,3 +133,7 @@ JPN
 GeoStationAnalysis
 SpaceObjectGroups
 TAI
+RenderState
+ICRF
+float32
+m
