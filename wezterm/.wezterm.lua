@@ -19,7 +19,7 @@ config.adjust_window_size_when_changing_font_size = false
 config.window_decorations = "RESIZE"
 config.window_padding = {
 	left = 8,
-	right = 8,
+	right = 12, -- スクロールバーの幅になる
 	top = 8,
 	bottom = 8,
 }
@@ -30,7 +30,10 @@ config.window_background_opacity = 0.8
 config.front_end = 'OpenGL'
 config.prefer_egl = true
 config.scrollback_lines = 10000
-config.enable_scroll_bar = false
+config.enable_scroll_bar = true
+config.colors = {
+	scrollbar_thumb = "#565f89",
+}
 config.warn_about_missing_glyphs = false
 config.tab_max_width = 32
 
@@ -82,6 +85,20 @@ config.keys = {
 			end),
 		}),
 	},
+
+	-- Scrollback (no mouse wheel / no PageUp-PageDown)
+	{ key = "k", mods = "CTRL|SHIFT", action = act.ScrollByLine(-3) },
+	{ key = "j", mods = "CTRL|SHIFT", action = act.ScrollByLine(3) },
+	{ key = "u", mods = "CTRL|SHIFT", action = act.ScrollByPage(-0.5) },
+	{ key = "d", mods = "CTRL|SHIFT", action = act.ScrollByPage(0.5) },
+	{ key = "b", mods = "CTRL|SHIFT", action = act.ScrollByPage(-1) },
+	{ key = "f", mods = "CTRL|SHIFT", action = act.ScrollByPage(1) },
+	{ key = "Home", mods = "CTRL|SHIFT", action = act.ScrollToTop },
+	{ key = "End", mods = "CTRL|SHIFT", action = act.ScrollToBottom },
+
+	-- Copy mode (vim-like scroll & selection)
+	{ key = "[", mods = "LEADER", action = act.ActivateCopyMode },
+	{ key = "]", mods = "LEADER", action = act.PasteFrom("PrimarySelection") },
 
 	-- Launcher / palette
 	{ key = "w", mods = "LEADER", action = act.ShowLauncher },
