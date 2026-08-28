@@ -28,4 +28,24 @@ return {
       },
     },
   },
+  {
+    -- <leader><leader> は LazyVim の snacks_picker extra が
+    -- "Find Files (Root Dir)" (= <leader>ff と同じ) を割り当てている。
+    -- 同じ lhs を snacks.nvim の spec 側で再定義して yazi に差し替える。
+    -- ファジーなファイル検索は <leader>ff に残る。
+    "folke/snacks.nvim",
+    keys = {
+      {
+        "<leader><leader>",
+        -- :Yazi はパス引数を取れないので Lua API を使う。LazyVim.root() は
+        -- config/options.lua の vim.g.root_spec = { ".git", "cwd" } に従うので
+        -- git リポジトリのルート(なければ cwd)が開く。
+        function()
+          require("yazi").yazi(nil, LazyVim.root())
+        end,
+        mode = { "n", "v" },
+        desc = "Yazi (repo root)",
+      },
+    },
+  },
 }
