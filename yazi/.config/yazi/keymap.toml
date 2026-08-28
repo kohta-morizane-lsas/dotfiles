@@ -1,0 +1,14 @@
+# yazi 同梱の fzf / zoxide プラグインは子プロセスの stderr を端末に渡さない。
+# Debian の fzf 0.44.1 は TUI を stderr に描画するため、既定の z / Z を押すと
+# 画面が真っ暗になり操作不能になる。stderr を継承させた自作版に差し替える。
+# fzf を 0.5x 以降(TUI を /dev/tty に描画)へ更新したらこの keymap は不要。
+
+[[mgr.prepend_keymap]]
+on = "z"
+run = "plugin fzf-tty"
+desc = "Jump to a file/directory via fzf"
+
+[[mgr.prepend_keymap]]
+on = "Z"
+run = "plugin zoxide-tty"
+desc = "Jump to a directory via zoxide"

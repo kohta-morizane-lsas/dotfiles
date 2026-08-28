@@ -19,6 +19,7 @@ WSL, macOS, or native Windows — same tools, same aliases, same key habits.
 | `lazygit`  | `~/.config/lazygit/config.yml`                                      |
 | `nvim`     | `~/.config/nvim/` (LazyVim config, `lazy-lock.json` included), `~/.markdownlint-cli2.yaml` |
 | `bat`      | `~/.config/bat/themes/tokyonight_storm.tmTheme`                     |
+| `yazi`     | `~/.config/yazi/` (`keymap.toml`, fzf/zoxide plugin overrides)       |
 
 `shell` holds aliases/functions shared by bash and zsh; `bash` and `zsh` each add only shell-specific init.
 
