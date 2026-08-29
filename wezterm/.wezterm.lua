@@ -34,6 +34,13 @@ config.enable_scroll_bar = true
 config.colors = {
 	scrollbar_thumb = "#565f89",
 }
+
+-- 非アクティヴペインを大きく沈めて、今どこにいるかを一目で分かるようにする
+-- (WezTerm のデフォルトは saturation = 0.9, brightness = 0.8 で差が小さい)
+config.inactive_pane_hsb = {
+	saturation = 0.6,
+	brightness = 0.45,
+}
 config.warn_about_missing_glyphs = false
 config.tab_max_width = 32
 
@@ -65,6 +72,9 @@ config.keys = {
 	-- Pane zoom / close
 	{ key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
 	{ key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
+
+	-- どのペインにいるか見失ったとき、全ペインにラベルを重ねて一発で飛ぶ
+	{ key = "q", mods = "LEADER", action = act.PaneSelect({ alphabet = "asdfghjkl" }) },
 
 	-- Tabs
 	{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
@@ -135,5 +145,33 @@ if git_bash_handle then
 	git_bash_handle:close()
 	table.insert(config.launch_menu, 2, { label = "Git Bash", args = { git_bash, "-l" } })
 end
+
+-- 右上に「今どこのペインにいるか」を常時表示する (ペインが 1 枚だけのときは出さない)
+wezterm.on("update-status", function(window, _)
+	local tab = window:active_tab()
+	if tab == nil then
+		return
+	end
+
+	local panes = tab:panes_with_info()
+	if #panes < 2 then
+		window:set_right_status("")
+		return
+	end
+
+	local index, zoomed = 0, false
+	for _, p in ipairs(panes) do
+		if p.is_active then
+			index = p.index + 1
+			zoomed = p.is_zoomed
+		end
+	end
+
+	window:set_right_status(wezterm.format({
+		{ Foreground = { Color = "#7aa2f7" } },
+		{ Attribute = { Intensity = "Bold" } },
+		{ Text = string.format(" ▊ pane %d/%d%s ", index, #panes, zoomed and " [zoomed]" or "") },
+	}))
+end)
 
 return config
