@@ -31,9 +31,10 @@ config.front_end = 'OpenGL'
 config.prefer_egl = true
 config.scrollback_lines = 10000
 config.enable_scroll_bar = true
-config.colors = {
+local BASE_COLORS = {
 	scrollbar_thumb = "#565f89",
 }
+config.colors = BASE_COLORS
 
 -- 非アクティヴペインを大きく沈めて、今どこにいるかを一目で分かるようにする
 -- (WezTerm のデフォルトは saturation = 0.9, brightness = 0.8 で差が小さい)
@@ -146,8 +147,36 @@ if git_bash_handle then
 	table.insert(config.launch_menu, 2, { label = "Git Bash", args = { git_bash, "-l" } })
 end
 
+local BLURRED_BG = "#16161e" -- Tokyo Night の一番暗い背景
+
+-- ウィンドウを複数開いたとき、非フォーカス側の背景を一段落とす
+local function apply_focus_style(window)
+	local overrides = window:get_config_overrides() or {}
+	-- `focused and nil or BLURRED_BG` は Lua では常に BLURRED_BG になるので使わない
+	local background = nil
+	if not window:is_focused() then
+		background = BLURRED_BG
+	end
+
+	-- 値が変わったときだけ呼ぶ (毎回呼ぶと設定再読込がループする)
+	if (overrides.colors or {}).background == background then
+		return
+	end
+
+	-- colors を override すると config.colors 全体が置き換わるので BASE_COLORS を持ち回る
+	if background == nil then
+		overrides.colors = nil
+	else
+		overrides.colors = {
+			scrollbar_thumb = BASE_COLORS.scrollbar_thumb,
+			background = background,
+		}
+	end
+	window:set_config_overrides(overrides)
+end
+
 -- 右上に「今どこのペインにいるか」を常時表示する (ペインが 1 枚だけのときは出さない)
-wezterm.on("update-status", function(window, _)
+local function update_pane_status(window)
 	local tab = window:active_tab()
 	if tab == nil then
 		return
@@ -172,6 +201,16 @@ wezterm.on("update-status", function(window, _)
 		{ Attribute = { Intensity = "Bold" } },
 		{ Text = string.format(" ▊ pane %d/%d%s ", index, #panes, zoomed and " [zoomed]" or "") },
 	}))
+end
+
+-- update-status は既定で 1 秒間隔なので、切り替えを待たせないよう focus 側にも繋ぐ
+wezterm.on("window-focus-changed", function(window, _)
+	apply_focus_style(window)
+end)
+
+wezterm.on("update-status", function(window, _)
+	apply_focus_style(window)
+	update_pane_status(window)
 end)
 
 return config
