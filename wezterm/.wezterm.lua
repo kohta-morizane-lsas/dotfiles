@@ -39,7 +39,7 @@ config.colors = {
 -- (WezTerm のデフォルトは saturation = 0.9, brightness = 0.8 で差が小さい)
 config.inactive_pane_hsb = {
 	saturation = 0.6,
-	brightness = 0.45,
+	brightness = 0.55,
 }
 config.warn_about_missing_glyphs = false
 config.tab_max_width = 32
